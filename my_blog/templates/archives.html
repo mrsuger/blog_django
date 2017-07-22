@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Blog Post Content Column -->
+<div class="col-lg-8">
+
+    <!-- Blog Post -->
+
+    <!-- Title -->
+    <h1 class="page-header">
+        Viewing posts
+        <small>from June,2017</small>
+    </h1>
+
+    {% for blog_date in blog_date_list %}
+    <!-- 博客列表 -->
+    <h2>
+        <a href="{% url "get_detail" blog_id=blog_date.id %}">{{ blog_date.title }}</a>
+    </h2>
+
+    <p><span class="glyphicon glyphicon-time"></span> Posted on {{ blog_date.created }}</p>
+
+    <p>{{ blog_date.content|truncatechars:50 }}</p>
+    <a class="btn btn-primary" href="{% url "get_detail" blog_id=blog_date.id %}">阅读全文 <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+    <hr>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

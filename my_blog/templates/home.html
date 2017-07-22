@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- 博客列表 -->
+<div class="col-md-8">
+
+
+    <h1 class="page-header">
+        Suger_Tk's Blog
+        <small>by Bootstrap</small>
+    </h1>
+
+    {% for blog in blog_post %}
+    <!-- 博客列表 -->
+    <h2>
+        <a href="{% url "get_detail" blog_id=blog.id %}">{{ blog.title }}</a>
+    </h2>
+
+    <p><span class="glyphicon glyphicon-time"></span>
+        Posted on {{ blog.created|date:"Y /m /d" }}&nbsp;
+        <span class="label label-info">{{ blog.category }}</span>
+    </p>
+    <hr>
+    <img class="img-responsive" src="/static/img/4.jpg" alt="">
+    <hr>
+    <p>{{ blog.content|truncatechars:100 }}</p>
+    <a class="btn btn-primary" href="{% url "get_detail" blog_id=blog.id %}">阅读全文 <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+    <hr>
+    {% endfor %}
+
+    <!-- 分页 -->
+    <ul class="pager">
+        {% if blog_post.has_previous %}
+        <li class="previous">
+            <a href="?page={{ blog_post.previous_page_number }}"><span class="glyphicon glyphicon-chevron-left"></span>上一页</a>
+        </li>
+        {% endif %}
+
+        {% if blog_post.has_next %}
+        <li class="next">
+            <a href="?page={{ blog_post.next_page_number }}">下一页<span class="glyphicon glyphicon-chevron-right"></span></a>
+        </li>
+        {% endif %}
+    </ul>
+
+
+</div>
+
+{% endblock %}
