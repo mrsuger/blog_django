@@ -24,8 +24,8 @@
     <hr>
 
     <!-- Post Content -->
-    <p class="lead">{{ post.content|truncatechars:20 }}</p>
-    <p>{{ post.content }}</p>
+    <p class="lead">{{ post.content|truncatechars:20|safe }}</p>
+    <p>{{ post.content|safe }}</p>
 
     <hr>
 

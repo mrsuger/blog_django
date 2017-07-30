@@ -1,3 +1,4 @@
+import markdown
 from django.shortcuts import render
 from .models import Blog, Category
 from .forms import CommentForm
@@ -12,11 +13,17 @@ def detail(request, blog_id):
         post = Blog.objects.get(id=blog_id)
     except Blog.DoesNotExist:
         raise Http404
+    post.content = markdown.markdown(post.content,
+                                     extensions=[
+                                         'markdown.extensions.extra',
+                                         'markdown.extensions.codehilite',
+                                         'markdown.extensions.toc',
+                                     ])
 
     return render(request, 'detail.html', {'post': post})
 
 def home(request):
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.all().order_by('-created')
     paginator = Paginator(blogs, 3)
     page = request.GET.get('page')
     try:
