@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load blog_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,13 +91,16 @@
                 <!-- 分类 -->
                 <div class="well">
                     <h4>分类</h4>
+                    {% get_categories as category_list %}
                     <div class="row">
                         <div class="col-lg-6">
                             <ul class="list-unstyled">
-                                <li><a href="{% url "get_category" category_name=2 %}">Python</a>
+                                {% for category in category_list %}
+                                <li><a href="{% url "get_category" pk=category.pk %}">{{ category.name }}</a>
                                 </li>
-                                <li><a href="{% url "get_category" category_name=1 %}">Django</a>
-                                </li>
+                                {% empty %}
+                                暂无分类！
+                                {% endfor %}
                             </ul>
                         </div>
                         <!-- /.col-lg-6 -->
@@ -107,25 +111,44 @@
                 <!-- 归档 -->
                 <div class="well well-lg">
                     <h4>归档</h4>
+                    {% archives as date_list %}
                         <div class="row">
                             <div class="col-lg-6">
+                                {% for date in date_list %}
                                 <ul class="list-unstyled">
-                                    <h5>2017年</h5>
                                     <!--给name=get_archives的html页面传两个参数(year=年,month=月)-->
-                                    <li><a href="{% url "get_archives" year=2017 month=7 %}">7月</a>
+                                    <li><a href="{% url "get_archives" year=date.year month=date.month %}">{{ date.year }}年{{ date.month }}月</a>
                                     </li>
-                                    <li><a href="{% url "get_archives" year=2017 month=6 %}">6月</a>
-                                    </li>
-                                    <li><a href="#">5月</a>
-                                    </li>
-                                    <li><a href="#">4月</a>
-                                    </li>
+                                    {% empty %}
+                                    暂无归档！
+                                {% endfor %}
                                 </ul>
                             </div>
                             <!-- /.col-lg-6 -->
                         </div>
                         <!-- /.row -->
                 </div>
+
+                 <!-- 标签 -->
+                <div class="well">
+                    <h4>标签云</h4>
+                    {% get_tags as tag_list %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-unstyled">
+                                {% for tag in tag_list %}
+                                <li><a href={% url "get_tag" pk=tag.pk %}>{{ tag.name }}</a>
+                                </li>
+                                {% empty %}
+                                暂无分类！
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
 
             </div><!-- col-md-4 -->
 

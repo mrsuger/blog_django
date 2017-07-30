@@ -1,6 +1,6 @@
 import markdown
-from django.shortcuts import render
-from .models import Blog, Category
+from django.shortcuts import render, get_object_or_404
+from .models import Blog, Category, Tag
 from .forms import CommentForm
 from django.http import Http404, HttpResponse
 # 导入分页包
@@ -39,12 +39,18 @@ def about_me(request):
 
 # archives页面获得year和month参数，从而显示相应的页面
 def archives(request, year, month):
-    blog_date_list = Blog.objects.filter(created__year=year, created__month=month)
+    blog_date_list = Blog.objects.filter(created__year=year, created__month=month).order_by('created')
     return render(request, 'archives.html', {'blog_date_list': blog_date_list})
 
-def category(request, category_name):
-    posts = Blog.objects.filter(category=category_name)
+def category(request, pk):
+    cate = get_object_or_404(Category, pk=pk)
+    posts = Blog.objects.filter(category=cate).order_by('created')
     return render(request, 'category.html', {'posts': posts})
+
+def tags(request, pk):
+    tag = get_object_or_404(Tag, pk=pk)
+    posts = Blog.objects.filter(tags=tag).order_by('created')
+    return render(request, 'tag.html', {'posts': posts})
 
 def search(request):
     # s为表单输入的参数

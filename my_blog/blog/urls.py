@@ -8,6 +8,7 @@ urlpatterns = [
     # archives页面需要传入两个参数
     url(r'^archives/(?P<year>\d+)/(?P<month>\d+)/$', views.archives, name = 'get_archives'),
     # category页面传入任意字符串
-    url(r'^category/(?P<category_name>\w+)/$', views.category, name = 'get_category'),
+    url(r'^category/(?P<pk>[0-9]+)/$', views.category, name = 'get_category'),
+    url(r'^tag/(?P<pk>[0-9]+)/$', views.tags, name='get_tag'),
     url(r'^search/$', views.search, name = 'get_search'),
 ]
